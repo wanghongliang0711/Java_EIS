@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtStatusMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtStatus">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="parent_id" property="parentId" javaType="Long" jdbcType="BIGINT" />
+        <result column="main_prot_id" property="mainProtId" javaType="Long" jdbcType="BIGINT" />
+        <result column="phase" property="phase" javaType="String" jdbcType="VARCHAR" />
+        <result column="owned_by" property="ownedBy" javaType="String" jdbcType="VARCHAR" />
+        <result column="prot_type" property="protType" javaType="String" jdbcType="VARCHAR" />
+        <result column="period" property="period" javaType="String" jdbcType="VARCHAR" />
+        <result column="achieved_me_cost" property="achievedMeCost" javaType="String" jdbcType="VARCHAR" />
+        <result column="me_cost_target" property="meCostTarget" javaType="String" jdbcType="VARCHAR" />
+        <result column="vender" property="vender" javaType="String" jdbcType="VARCHAR" />
+        <result column="section" property="section" javaType="String" jdbcType="VARCHAR" />
+        <result column="team" property="team" javaType="String" jdbcType="VARCHAR" />
+        <result column="task_leader" property="taskLeader" javaType="String" jdbcType="VARCHAR" />
+        <result column="engineers" property="engineers" javaType="String" jdbcType="VARCHAR" />
+        <result column="plan_or_fact" property="planOrFact" javaType="String" jdbcType="VARCHAR" />
+        <result column="prot_kickoff_meet" property="protKickoffMeet" javaType="String" jdbcType="VARCHAR" />
+        <result column="industrial_design_start" property="industrialDesignStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="industrial_design_end" property="industrialDesignEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="id_dummy_sample_start" property="idDummySampleStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="id_dummy_sample_end" property="idDummySampleEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="mechanical_design_start" property="mechanicalDesignStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="mechanical_design_end" property="mechanicalDesignEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="cnc_sample_start" property="cncSampleStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="cnc_sample_end" property="cncSampleEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="soft_tool_part_start" property="softToolPartStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="soft_tool_part_end" property="softToolPartEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="tooling" property="tooling" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+
+
+</mapper>

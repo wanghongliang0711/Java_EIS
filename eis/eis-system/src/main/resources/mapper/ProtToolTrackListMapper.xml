@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtToolTrackListMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtToolTrackList">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="part_name" property="partName" javaType="String" jdbcType="VARCHAR" />
+        <result column="part_no" property="partNo" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_first" property="isFirst" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_show" property="isShow" javaType="String" jdbcType="VARCHAR" />
+        <result column="vendor" property="vendor" javaType="String" jdbcType="VARCHAR" />
+        <result column="date_plan" property="datePlan" javaType="String" jdbcType="VARCHAR" />
+        <result column="date_act" property="dateAct" javaType="String" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" javaType="Long" jdbcType="BIGINT" />
+        <result column="tx" property="tx" javaType="Integer" jdbcType="INTEGER" />
+        <result column="item" property="item" javaType="Integer" jdbcType="INTEGER" />
+        <result column="issue_description" property="issueDescription" javaType="String" jdbcType="VARCHAR" />
+        <result column="action" property="action" javaType="String" jdbcType="VARCHAR" />
+        <result column="issue_priority" property="issuePriority" javaType="String" jdbcType="VARCHAR" />
+        <result column="status" property="status" javaType="String" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" javaType="String" jdbcType="VARCHAR" />
+        <result column="root_cause" property="rootCause" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <delete id="deleteProtToolTrackListById">
+        delete from sys_prot_ToolingTrackingList where id = #{id}
+    </delete>
+
+
+    <insert id="addBatchProtToolTrackList" parameterType="list">
+        INSERT INTO
+        sys_prot_ToolingTrackingList
+        (id, prot_id, part_name, part_no, is_show, is_first, vendor, date_plan, date_act, parent_id, tx, item, issue_description, action, issue_priority, status, remark, root_cause, update_user, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.protId}, #{item.partName}, #{item.partNo}, #{item.isShow}, #{item.isFirst}, #{item.vendor}
+            , #{item.datePlan}, #{item.dateAct}, #{item.parentId}, #{item.tx}, #{item.item}, #{item.issueDescription}, #{item.action}, #{item.issuePriority}, #{item.status}, #{item.remark}, #{item.rootCause}, #{item.updateUser}, #{item.updateTime})
+        </foreach>
+    </insert>
+
+
+    <select id="getLastPartNoAndTx" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        part_no,MAX(tx) as tx
+        from sys_prot_ToolingTrackingList
+        where parent_id =0 and prot_id = #{sonProtId} and is_delete=0
+        GROUP BY part_no;
+    </select>
+
+
+    <select id="getLastTxBySonProtId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        MAX(tx) as tx
+        from sys_prot_ToolingTrackingList
+        where parent_id =0 and prot_id = #{sonProtId} and is_delete=0;
+    </select>
+
+
+</mapper>

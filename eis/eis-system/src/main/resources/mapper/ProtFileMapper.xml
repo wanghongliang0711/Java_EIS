@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtFileMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtFile">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR" />
+        <result column="size" property="size" javaType="Double" jdbcType="DOUBLE" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="resource" property="resource" javaType="String" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" javaType="String" jdbcType="VARCHAR" />
+        <result column="category" property="category" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <insert id="addBatchProtFile" parameterType="list">
+        INSERT INTO
+        sys_file
+        (id, name, size, prot_id, resource, remark, category, is_delete, create_user, update_user, create_time, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.name}, #{item.size}, #{item.protId}, #{item.resource}
+            , #{item.remark}, #{item.category}, #{item.isDelete}, #{item.createUser}, #{item.updateUser}, #{item.createTime}, #{item.updateTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteProtFileByProtIds" parameterType="list">
+        DELETE FROM
+            sys_file
+        WHERE
+            prot_id
+        IN
+        <foreach collection="protIds" index="index" item="protId" open="(" close=")" separator=",">
+            #{protId}
+        </foreach>
+    </delete>
+
+
+</mapper>

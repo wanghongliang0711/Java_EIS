@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtToolPlanMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtToolPlan">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="file_ver" property="fileVer" javaType="String" jdbcType="VARCHAR" />
+        <result column="no" property="no" javaType="Integer" jdbcType="INTEGER" />
+        <result column="part_no" property="partNo" javaType="String" jdbcType="VARCHAR" />
+        <result column="part_des" property="partDes" javaType="String" jdbcType="VARCHAR" />
+        <result column="pro_e_file_name" property="proEFileName" javaType="String" jdbcType="VARCHAR" />
+        <result column="version" property="version" javaType="String" jdbcType="VARCHAR" />
+        <result column="weight" property="weight" javaType="String" jdbcType="VARCHAR" />
+        <result column="chinese_name" property="chineseName" javaType="String" jdbcType="VARCHAR" />
+        <result column="cav" property="cav" javaType="String" jdbcType="VARCHAR" />
+        <result column="material" property="material" javaType="String" jdbcType="VARCHAR" />
+        <result column="color_no" property="colorNo" javaType="String" jdbcType="VARCHAR" />
+        <result column="painting_color_no" property="paintingColorNo" javaType="String" jdbcType="VARCHAR" />
+        <result column="printing_color_no" property="printingColorNo" javaType="String" jdbcType="VARCHAR" />
+        <result column="coating_category" property="coatingCategory" javaType="String" jdbcType="VARCHAR" />
+        <result column="unit_price" property="unitPrice" javaType="String" jdbcType="VARCHAR" />
+        <result column="qty" property="qty" javaType="Integer" jdbcType="INTEGER" />
+        <result column="tooling_vender" property="toolingVender" javaType="String" jdbcType="VARCHAR" />
+        <result column="tooling_pr_cost" property="toolingPrCost" javaType="Integer" jdbcType="INTEGER" />
+        <result column="pr_number" property="prNumber" javaType="String" jdbcType="VARCHAR" />
+        <result column="supplied_vendor" property="suppliedVendor" javaType="String" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" javaType="String" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" javaType="Long" jdbcType="BIGINT" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <delete id="deleteProtToolPlanById">
+        delete from sys_prot_ToolingPlan where id = #{id}
+    </delete>
+
+    <delete id="deleteProtToolPlanByParentId">
+        delete from sys_prot_ToolingPlan where parent_id = #{parentId}
+    </delete>
+
+    <delete id="deleteProtToolPlanByProtIdAndVer">
+        delete from sys_prot_ToolingPlan where prot_id = #{protId} and file_ver = #{fileVer}
+    </delete>
+
+    <insert id="addBatchProtToolPlan" parameterType="list">
+        INSERT INTO
+        sys_prot_ToolingPlan
+        (id, prot_id, file_ver, no, part_no, part_des, pro_e_file_name, version, weight, chinese_name, cav, material, color_no, painting_color_no, printing_color_no, coating_category, unit_price, qty, tooling_vender, tooling_pr_cost, pr_number, supplied_vendor, remark, parent_id, update_user, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (#{item.id},#{item.protId},#{item.fileVer},#{item.no},#{item.partNo},#{item.partDes},#{item.proEFileName},#{item.version},#{item.weight},#{item.chineseName},#{item.cav}
+            ,#{item.material},#{item.colorNo},#{item.paintingColorNo},#{item.printingColorNo},#{item.coatingCategory},#{item.unitPrice},#{item.qty},#{item.toolingVender},#{item.toolingPrCost},#{item.prNumber},#{item.suppliedVendor},#{item.remark},#{item.parentId},#{item.updateUser},#{item.updateTime})
+        </foreach>
+    </insert>
+
+
+
+</mapper>

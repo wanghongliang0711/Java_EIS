@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtPilotRunReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtPilotRunReport">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="file_ver" property="fileVer" javaType="String" jdbcType="VARCHAR" />
+        <result column="item" property="item" javaType="Integer" jdbcType="INTEGER" />
+        <result column="problem_des" property="problemDes" javaType="String" jdbcType="VARCHAR" />
+        <result column="date_time" property="dateTime" javaType="String" jdbcType="VARCHAR" />
+        <result column="fail_rate" property="failRate" javaType="String" jdbcType="VARCHAR" />
+        <result column="severity" property="severity" javaType="String" jdbcType="VARCHAR" />
+        <result column="issuer" property="issuer" javaType="String" jdbcType="VARCHAR" />
+        <result column="owner" property="owner" javaType="String" jdbcType="VARCHAR" />
+        <result column="design" property="design" javaType="String" jdbcType="VARCHAR" />
+        <result column="work" property="work" javaType="String" jdbcType="VARCHAR" />
+        <result column="material" property="material" javaType="String" jdbcType="VARCHAR" />
+        <result column="root_cause" property="rootCause" javaType="String" jdbcType="VARCHAR" />
+        <result column="action" property="action" javaType="String" jdbcType="VARCHAR" />
+        <result column="due_date" property="dueDate" javaType="String" jdbcType="VARCHAR" />
+        <result column="status" property="status" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <delete id="deleteProtPilotRunReportById">
+        delete from sys_prot_PilotrunReport where id = #{id}
+    </delete>
+
+    <delete id="deletePilotRunReportByProtIdAndVer">
+        delete from sys_prot_PilotrunReport where prot_id = #{protId} and file_ver = #{fileVer}
+    </delete>
+
+    <insert id="addBatchProtPilotRunReport" parameterType="list">
+        INSERT INTO
+        sys_prot_PilotrunReport
+        (id, prot_id, file_ver, item, problem_des, date_time, fail_rate, severity, issuer, owner, design, work, material, root_cause, action, due_date, status)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.protId}, #{item.fileVer}, #{item.item}, #{item.problemDes}, #{item.dateTime} ,
+            #{item.failRate}, #{item.severity}, #{item.issuer}, #{item.owner}, #{item.design}, #{item.work}, #{item.material}, #{item.rootCause}, #{item.action}, #{item.dueDate}, #{item.status})
+        </foreach>
+    </insert>
+
+    <delete id="deleteBatchPilotRunReportByIds" parameterType="list">
+        DELETE FROM
+            sys_prot_PilotrunReport
+        WHERE
+            id
+        IN
+        <foreach collection="idList" index="index" item="Id" open="(" close=")" separator=",">
+            #{Id}
+        </foreach>
+    </delete>
+
+
+</mapper>

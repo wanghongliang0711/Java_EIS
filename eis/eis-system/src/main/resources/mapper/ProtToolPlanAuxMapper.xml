@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtToolPlanAuxMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtToolPlanAux">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="data_id" property="dataId" javaType="Long" jdbcType="BIGINT" />
+        <result column="data_type" property="dataType" javaType="Long" jdbcType="BIGINT" />
+        <result column="data_content" property="dataContent" javaType="Long" jdbcType="BIGINT" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <delete id="deleteProtToolPlanAuxByDataId">
+        delete from sys_prot_ToolingPlanAux where data_id = #{dataId}
+    </delete>
+
+
+    <insert id="addBatchProtToolPlanAux" parameterType="list">
+        INSERT INTO
+        sys_prot_ToolingPlanAux
+        (id, data_id, data_type, data_content)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.dataId}, #{item.dataType}, #{item.dataContent})
+        </foreach>
+    </insert>
+
+    <delete id="deleteProtToolPlanAuxByDataIds" parameterType="list">
+        DELETE FROM
+            sys_prot_ToolingPlanAux
+        WHERE
+            data_id
+        IN
+        <foreach collection="dataIds" index="index" item="dataId" open="(" close=")" separator=",">
+            #{dataId}
+        </foreach>
+    </delete>
+
+
+
+
+</mapper>

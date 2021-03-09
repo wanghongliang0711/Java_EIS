@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtMePartListMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtMePartList">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="file_ver" property="fileVer" javaType="String" jdbcType="VARCHAR" />
+        <result column="no" property="no" javaType="Integer" jdbcType="INTEGER" />
+        <result column="bom_level" property="bomLevel" javaType="String" jdbcType="VARCHAR" />
+        <result column="part_number" property="partNumber" javaType="String" jdbcType="VARCHAR" />
+        <result column="part_description" property="partDescription" javaType="String" jdbcType="VARCHAR" />
+        <result column="meterial" property="meterial" javaType="String" jdbcType="VARCHAR" />
+        <result column="weight" property="weight" javaType="String" jdbcType="VARCHAR" />
+        <result column="qty" property="qty" javaType="String" jdbcType="VARCHAR" />
+        <result column="vendor" property="vendor" javaType="String" jdbcType="VARCHAR" />
+        <result column="unit_price" property="unitPrice" javaType="String" jdbcType="VARCHAR" />
+        <result column="total_price" property="totalPrice" javaType="String" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <delete id="deleteProtMePartListById">
+        delete from sys_prot_MePartList where id = #{id}
+    </delete>
+
+    <delete id="deleteProtMePartListByProtIdAndVer">
+        delete from sys_prot_MePartList where prot_id = #{protId} and file_ver = #{fileVer}
+    </delete>
+
+    <insert id="addBatchProtMePartList" parameterType="list">
+        INSERT INTO
+        sys_prot_MePartList
+        (id, prot_id, file_ver, no, bom_level, part_number, part_description, meterial, weight, qty, vendor, unit_price, total_price, remark )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (#{item.id}, #{item.protId}, #{item.fileVer}, #{item.no}, #{item.bomLevel}, #{item.partNumber}, #{item.partDescription}
+        , #{item.meterial}, #{item.weight}, #{item.qty}, #{item.vendor}, #{item.unitPrice}, #{item.totalPrice}, #{item.remark})
+        </foreach>
+    </insert>
+</mapper>

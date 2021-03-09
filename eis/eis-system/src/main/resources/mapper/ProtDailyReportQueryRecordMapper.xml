@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtDailyReportQueryRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtDailyReportQueryRecord">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_id" property="protId" javaType="Long" jdbcType="BIGINT" />
+        <result column="sub_prot_id" property="subProtId" javaType="Long" jdbcType="BIGINT" />
+        <result column="issue_priority" property="issuePriority" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <delete id="deleteProtDailyReportQueryRecord">
+        delete from sys_prot_dailyReportQueryRecord where id = #{id}
+    </delete>
+
+
+</mapper>

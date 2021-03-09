@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.dto.UserDto">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="username" property="username" javaType="String" jdbcType="VARCHAR" />
+        <result column="password" property="password" javaType="String" jdbcType="VARCHAR" />
+        <result column="job_num" property="jobNum" javaType="String" jdbcType="VARCHAR" />
+        <result column="status" property="status" javaType="Integer" jdbcType="TINYINT" />
+        <result column="email" property="email" javaType="String" jdbcType="VARCHAR" />
+        <result column="dept_id" property="deptId" javaType="Long" jdbcType="BIGINT" />
+        <result column="dept_name" property="deptName" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="userField" >
+        id,username,`password`, job_num, `status`, email, dept_id
+    </sql>
+
+    <sql id="showField" >
+        id, username, job_num, `status`, email
+    </sql>
+
+    <select id="selectUserByName" parameterType="java.lang.String" resultType="com.mic.eis.domain.model.User">
+        SELECT
+        <include refid="userField" />
+        FROM sys_user
+        <where>
+            <if test="username != null and username != ''">
+                username = #{username}
+            </if>
+            and is_delete = 0
+        </where>
+    </select>
+
+    <insert id="insertUserRoles">
+        INSERT INTO
+            sys_user_role
+            (id, user_id, role_id)
+        VALUES
+            (#{id}, #{userId}, #{roleId})
+    </insert>
+
+    <update id="deleteUserRoles" >
+        UPDATE
+            sys_user_role
+        SET
+            is_delete = 1
+        WHERE
+            is_delete = 0
+            AND user_id = #{userId}
+    </update>
+
+    <update id="deleteUsersRoles">
+        UPDATE
+            sys_user_role
+        SET
+            is_delete = 1
+        WHERE
+            user_id
+        IN
+        <foreach collection="userIds" index="index" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </update>
+
+    <select id="selectUserList" resultMap="BaseResultMap">
+        SELECT
+            DISTINCT(u.id), u.username, u.job_num, u.status, u.email, u.dept_id, d.name as dept_name
+        FROM
+            sys_user u
+        LEFT JOIN sys_dept d ON u.dept_id = d.id
+        <where>
+            u.is_delete = 0
+            <if test="uqv.username != null and uqv.username != ''">
+                AND u.username LIKE concat('%',#{uqv.username}, '%')
+            </if>
+            <if test="uqv.status != null">
+                AND u.status = #{uqv.status}
+            </if>
+            <if test="deptIds != null and deptIds.size() != 0">
+                AND u.dept_id IN
+                <foreach item="item" index="index" collection="deptIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="findALlSubDeptId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            id
+        FROM
+            (
+                SELECT
+                    t1.id,
+                    IF
+                        ( find_in_set( parent_id, @pids ) > 0, @pids := concat( @pids, ',', id ), 0 ) AS ischild
+                FROM
+                    ( SELECT id, parent_id FROM sys_dept t WHERE t.is_delete = 0 ORDER BY parent_id, id ) t1,
+                    ( SELECT @pids := #{deptId} ) t2
+            ) t3
+        WHERE
+            ischild != 0
+    </select>
+
+    <select id="selectRoleIds" resultType="java.lang.Long" parameterType="java.lang.Long">
+        SELECT
+            role_id
+        FROM
+            sys_user_role
+        WHERE
+            user_id = #{userId}
+        AND
+            is_delete = 0
+    </select>
+
+    <insert id="addRoleToUser" parameterType="java.util.List">
+        INSERT INTO
+            sys_user_role
+            (id, user_id, role_id)
+        VALUES
+        <foreach collection="userRoles" item="urs" index="index" separator=",">
+            (#{urs.id}, #{urs.userId}, #{urs.roleId})
+        </foreach>
+    </insert>
+
+    <update id="updateUserById">
+        UPDATE
+            sys_user
+        SET
+            username = #{username},
+            job_num = #{jobNum},
+            email = #{email},
+            status = #{status}
+        WHERE
+            id = #{id}
+          AND
+            is_delete = 0
+    </update>
+
+    <update id="updateUserPwd">
+        UPDATE
+            sys_user
+        SET
+            password = #{newPwd}
+        WHERE
+            id = #{userId}
+          AND
+            is_delete = 0
+    </update>
+
+    <select id="selectAllAdmin" resultType="com.mic.eis.domain.model.UserRole">
+        SELECT
+            user_id, role_id
+        FROM
+            sys_user_role
+        WHERE
+            role_id = 2
+        AND
+            is_delete = 0
+        AND
+            user_id != 0
+    </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtStatusAuxMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtStatusAux">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="prot_status_id" property="protStatusId" javaType="Long" jdbcType="BIGINT" />
+        <result column="data_type" property="dataType" javaType="String" jdbcType="VARCHAR" />
+        <result column="data_num" property="dataNum" javaType="Integer" jdbcType="INTEGER" />
+        <result column="plan_start" property="planStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="plan_end" property="planEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="fact_start" property="factStart" javaType="String" jdbcType="VARCHAR" />
+        <result column="fact_end" property="factEnd" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <select id="getMaxDataNumAndDataType" resultMap="BaseResultMap">
+        select
+        data_type, MAX(data_num) as data_num
+        from sys_prot_statusAux
+        where is_delete=0 and data_type is not null and prot_status_id
+        IN
+        <foreach collection="protStatusIdList" index="index" item="protStatusId" open="(" close=")" separator=",">
+            #{protStatusId}
+        </foreach>
+        GROUP BY data_type;
+    </select>
+
+
+</mapper>

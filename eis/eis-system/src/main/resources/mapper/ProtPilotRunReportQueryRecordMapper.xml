@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtPilotRunReportQueryRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.ProtPilotRunReportQueryRecord">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="severity" property="severity" javaType="String" jdbcType="VARCHAR" />
+        <result column="status" property="status" javaType="String" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="String" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <delete id="deletePilotRunReportQueryRecord">
+        delete from sys_prot_PilotrunReportQueryRecord where id = #{id}
+    </delete>
+
+</mapper>

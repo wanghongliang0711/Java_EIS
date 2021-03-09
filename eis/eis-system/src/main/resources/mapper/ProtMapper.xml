@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mic.eis.mapper.ProtMapper">
+
+    <resultMap id="BaseResultMap" type="com.mic.eis.domain.model.Prot">
+        <result column="id" property="id" javaType="Long" jdbcType="BIGINT" />
+        <result column="name" property="name" javaType="String" jdbcType="VARCHAR" />
+        <result column="code" property="code" javaType="String" jdbcType="VARCHAR" />
+        <result column="status" property="status" javaType="Integer" jdbcType="TINYINT" />
+        <result column="remark" property="remark" javaType="String" jdbcType="VARCHAR" />
+        <result column="parent_id" property="parentId" javaType="Long" jdbcType="BIGINT" />
+        <result column="is_delete" property="isDelete" javaType="Integer" jdbcType="TINYINT" />
+        <result column="create_user" property="createUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_user" property="updateUser" javaType="Long" jdbcType="BIGINT" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="selectProtByUserId" resultType="java.lang.Long">
+        SELECT
+            prot_id
+        FROM sys_user_prot
+        WHERE
+            is_delete = 0
+        AND user_id = #{userId}
+        AND member = #{member}
+    </select>
+
+</mapper>
